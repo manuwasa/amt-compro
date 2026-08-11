@@ -1,0 +1,74 @@
+@import url('https://fonts.bunny.net/css?family=inter:400,500,600,700|sora:600,700,800');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    html {
+        scroll-behavior: smooth;
+    }
+
+    ::selection {
+        background-color: theme('colors.brand.200');
+        color: theme('colors.slate.900');
+    }
+
+    :focus-visible {
+        outline: 2px solid theme('colors.brand.500');
+        outline-offset: 2px;
+    }
+}
+
+[x-cloak] {
+    display: none !important;
+}
+
+/* Scroll-reveal, progressively enhanced: elements are visible by default so content
+   never depends on JS to be seen. Only once `html.reveal-ready` is set (by an inline
+   script in <head>, before paint) do [data-reveal] elements start hidden/offset; app.js
+   then flips `.is-visible` on as they scroll into view, with its own fallback timer in
+   case the IntersectionObserver never fires. Respects reduced-motion preferences too. */
+html.reveal-ready [data-reveal] {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Must out-specificity the rule above (which includes the `html` element) so that
+   adding this class reliably wins once JS reveals the element. */
+html.reveal-ready [data-reveal].is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html.reveal-ready [data-reveal] {
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
+}
+
+/* Thin, low-contrast scrollbar for a slightly more considered feel (Webkit/Blink only;
+   other browsers fall back to their native scrollbar, which is fine). */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: theme('colors.slate.300');
+    border-radius: 9999px;
+    border: 2px solid transparent;
+    background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: theme('colors.slate.400');
+    background-clip: content-box;
+}
