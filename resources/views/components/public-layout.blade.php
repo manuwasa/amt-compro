@@ -198,6 +198,11 @@
                 &copy; {{ date('Y') }} {{ $groupSettings['group_name'] ?? config('app.name') }}. All rights
                 reserved.
             </div>
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-xs text-slate-500">
+                <a href="https://www.putrateknologiindonesia.com">
+                    Crafted With ♥ by putrateknologiindonesia.
+                </a>
+            </div>
         </div>
     </footer>
 

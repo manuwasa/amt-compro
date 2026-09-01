@@ -74,10 +74,19 @@
                     </span>
                 @endif
 
-                <div class="mt-8">
+                @php($whatsappMessage = 'Halo saya ingin bertanya tentang layanan / produk dari AMT Group')
+                @php($whatsappUrl = ! empty($groupSettings['group_whatsapp_number']) ? 'https://wa.me/'.preg_replace('/\D/', '', $groupSettings['group_whatsapp_number']).'?text='.rawurlencode($whatsappMessage) : null)
+
+                <div class="mt-8 flex flex-wrap gap-3">
                     <x-button variant="primary" :href="route('contact', ['subject' => 'Inquiry about '.$product->name])">
-                        Contact Us About This Product <x-icon name="arrow-right" class="h-4 w-4" />
+                        Contact Us About This Product
                     </x-button>
+
+                    @if ($whatsappUrl)
+                        <x-button variant="outline" :href="$whatsappUrl" target="_blank" rel="noopener">
+                            <x-icon name="chat" class="h-4 w-4" /> Chat on WhatsApp
+                        </x-button>
+                    @endif
                 </div>
             </div>
         </div>
