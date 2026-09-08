@@ -138,14 +138,14 @@ database/
 └── seeders/
     ├── DatabaseSeeder.php
     ├── SettingSeeder.php
-    ├── CompanySeeder.php           # PT ABC Jaya Sejahtera (real content) + CV A/B/C (placeholders)
+    ├── CompanySeeder.php           # CV AMT Jaya Ban + PT ABC Jaya Sejahtera (real content) + CV B/C (placeholders)
     ├── ProductSeeder.php           # Befriend tire models under PT ABC Jaya Sejahtera
     └── ArticleSeeder.php
 routes/
 ├── web.php                         # public routes
 ├── admin.php                       # admin panel routes (required from web.php)
 ├── redirects.php                   # old abcjayasejahtera.com → new path 301s (see SEO)
-└── auth.php                        # Breeze login/password-reset routes (no public register)
+└── auth.php                        # login/logout + password confirm (no public register, no password reset)
 ```
 
 ---

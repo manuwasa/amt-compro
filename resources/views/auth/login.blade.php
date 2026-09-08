@@ -32,13 +32,9 @@
             </label>
         </div>
 
-        <div class="flex items-center justify-between mt-6">
-            @if (Route::has('password.request'))
-                <a class="text-sm text-slate-500 hover:text-slate-900 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500 rounded" href="{{ route('password.request') }}">
-                    {{ __('Forgot your password?') }}
-                </a>
-            @endif
-
+        {{-- No "forgot password" link: self-service reset is deliberately not exposed
+        (see routes/auth.php). A superadmin resets passwords from Admin -> Users. --}}
+        <div class="flex items-center justify-end mt-6">
             <x-primary-button>
                 {{ __('Log in') }}
             </x-primary-button>

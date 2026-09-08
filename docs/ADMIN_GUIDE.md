@@ -21,7 +21,7 @@ This guide covers everything you need to manage the AMT Group website through th
 
 Go to `https://yourdomain.com/admin` — you will be redirected to the login page automatically.
 
-Enter your email and password. If you forget your password, use the **Forgot Password** link on the login page (requires mail to be configured in Group Settings).
+Enter your email and password. There is deliberately no "Forgot Password" link: if you lose your password, ask a superadmin to set a new one for you under **Users** (see [Users](#users)). If nobody can still log in as a superadmin, a developer with server access has to create a new account with `php artisan admin:create`.
 
 After logging in you will land on the **Admin Dashboard**. There is no public sign-up page — new accounts are created by a superadmin under **Users**.
 

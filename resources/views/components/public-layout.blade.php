@@ -25,18 +25,9 @@
         :class="scrolled ? 'bg-white/90 backdrop-blur-md border-b border-slate-200 shadow-sm' :
             'bg-white/0 border-b border-transparent'">
         <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-            <a href="{{ route('home') }}"
-                class="flex items-center gap-2.5 font-display font-bold text-lg text-slate-900 shrink-0">
-                @if (!empty($groupSettings['group_logo']))
-                    <img src="{{ \Illuminate\Support\Facades\Storage::url($groupSettings['group_logo']) }}"
-                        alt="{{ $groupSettings['group_name'] ?? config('app.name') }}" class="h-9 w-auto">
-                @else
-                    <span
-                        class="flex h-9 w-9 items-center justify-center rounded-xl bg-slate-900 text-brand-400 font-display text-base">
-                        {{ mb_substr($groupSettings['group_name'] ?? config('app.name'), 0, 1) }}
-                    </span>
-                @endif
-                <span>{{ $groupSettings['group_name'] ?? config('app.name') }}</span>
+            {{-- Wordmark only: the header shows the group name as plain text, no logo image or initial badge. --}}
+            <a href="{{ route('home') }}" class="font-display font-bold text-lg text-slate-900 shrink-0">
+                {{ $groupSettings['group_name'] ?? config('app.name') }}
             </a>
 
             <div class="hidden lg:flex items-center gap-1 text-sm font-medium">

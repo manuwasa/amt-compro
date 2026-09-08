@@ -57,17 +57,17 @@
     {{-- About --}}
     @if (!empty($groupSettings['group_bio']))
         <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-28">
-            <div class="grid lg:grid-cols-3 gap-12">
+            <div class="grid lg:grid-cols-3 gap-12 lg:items-center">
                 <div class="lg:col-span-1">
                     <x-section-heading eyebrow="About Us">
-                        CV AMT Jaya Ban
+                        {{ $groupSettings['group_name'] ?? config('app.name') }}
                     </x-section-heading>
 
                     <dl class="mt-10 space-y-6" data-reveal style="transition-delay:60ms">
                         @foreach ([
-                            ['icon' => 'check', 'title' => 'Sejak 2007', 'desc' => 'Dari toko kecil hingga distributor dan produsen vulkanisir ban truck.'],
-                            ['icon' => 'map-pin', 'title' => 'Jaringan 4 Wilayah', 'desc' => 'Cibitung, Rembang, Kalimantan, dan Sulawesi.'],
-                            ['icon' => 'check', 'title' => 'Spesialis Cold Retread', 'desc' => 'Vulkanisir ban metode dingin untuk kualitas premium.'],
+                            ['icon' => 'check', 'title' => 'Perusahaan Induk', 'desc' => 'PT Susanto Group menaungi unit-unit usaha di bawah bendera AMT Group.'],
+                            ['icon' => 'check', 'title' => 'Akar di Industri Ban', 'desc' => 'Distribusi ban truck dan layanan vulkanisir ban metode dingin.'],
+                            ['icon' => 'map-pin', 'title' => 'Jaringan Nasional', 'desc' => 'Melayani pelanggan di berbagai wilayah Indonesia.'],
                         ] as $fact)
                             <div class="flex items-start gap-4">
                                 <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand-50 text-brand-600">
@@ -94,23 +94,17 @@
     <section class="py-20 sm:py-28 border-t border-slate-100">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <x-section-heading eyebrow="Company Profile" class="mb-12">
-                Identitas Perusahaan
+                Legalitas Perusahaan
             </x-section-heading>
 
             @php
+                // Holding-level legality. Each subsidiary's own profile lives on its
+                // Our Services page (see the Company records), not here.
                 $companyProfile = [
-                    'Nama Perusahaan' => 'CV AMT Jaya Ban',
-                    'Tahun Berdiri' => '2007',
+                    'Identitas' => 'PT Susanto Group',
+                    'Tahun Berdiri' => '2025',
                     'Pendiri' => 'Agus Susanto',
-                    'Bentuk Usaha' => 'Commanditaire Vennootschap (CV)',
-                    'Lokasi Kantor' => 'Cibitung',
-                    'Bidang Usaha' => 'Otomotif – Distribusi Ban Truck dan Vulkanisir Ban',
-                    'Produk Utama' => 'Distributor Ban Truck',
-                    'Layanan Unggulan' => 'Vulkanisir Ban dengan Metode Dingin',
-                    'Target Pelanggan' => 'Armada pertambangan dan pengguna truck',
-                    'Wilayah Distribusi' => 'Seluruh Indonesia',
-                    'Jaringan Operasional' => 'Cibitung, Rembang, Kalimantan, dan Sulawesi',
-                    'Kegiatan Perdagangan' => 'Distribusi dan impor ban dari China',
+                    'Bentuk Usaha' => 'PT (holding)',
                     'Media Sosial' => 'AMT Group Official',
                 ];
 
@@ -122,47 +116,52 @@
                 ])->filter(fn ($path) => \Illuminate\Support\Facades\Storage::disk('public')->exists($path))->values();
             @endphp
 
-            <div class="grid lg:grid-cols-3 gap-8 items-stretch">
-                <dl class="lg:col-span-2 rounded-2xl border border-slate-200 bg-white divide-y divide-slate-100 overflow-hidden"
-                    data-reveal>
-                    @foreach ($companyProfile as $label => $value)
-                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-1 sm:gap-6 px-6 py-4">
-                            <dt class="text-sm font-semibold text-slate-500">{{ $label }}</dt>
-                            <dd class="sm:col-span-2 text-sm text-slate-900">{{ $value }}</dd>
-                        </div>
-                    @endforeach
-                </dl>
+            {{-- A handful of short facts reads better as a row of tiles than as a
+            wide table, which left most of its rows empty. --}}
+            <dl class="grid gap-4 sm:grid-cols-2 lg:grid-cols-5" data-reveal>
+                @foreach ($companyProfile as $label => $value)
+                    <div class="rounded-2xl border border-slate-200 bg-white px-5 py-5">
+                        <dt class="text-xs font-semibold uppercase tracking-wider text-slate-400">{{ $label }}</dt>
+                        <dd class="font-display font-semibold text-slate-900 mt-2">{{ $value }}</dd>
+                    </div>
+                @endforeach
+            </dl>
 
-                <div class="rounded-2xl bg-slate-900 p-8 text-white flex flex-col" data-reveal style="transition-delay:100ms">
+            <div class="mt-8 grid sm:grid-cols-3 overflow-hidden rounded-2xl bg-slate-900 text-white" data-reveal
+                style="transition-delay:100ms">
+                @if ($ownerPhotos->isNotEmpty())
+                    <div class="relative aspect-[4/5] bg-slate-800 sm:aspect-auto sm:min-h-[20rem]"
+                        x-data="{ active: 0 }"
+                        x-init="setInterval(() => active = (active + 1) % {{ $ownerPhotos->count() }}, 5000)">
+                        @foreach ($ownerPhotos as $index => $photo)
+                            <img src="{{ \Illuminate\Support\Facades\Storage::url($photo) }}" alt="Agus Susanto"
+                                x-show="active === {{ $index }}"
+                                x-transition:enter="transition ease-out duration-700"
+                                x-transition:enter-start="opacity-0"
+                                x-transition:enter-end="opacity-100"
+                                x-transition:leave="transition ease-in duration-700"
+                                x-transition:leave-start="opacity-100"
+                                x-transition:leave-end="opacity-0"
+                                class="absolute inset-0 h-full w-full object-cover object-top">
+                        @endforeach
+                    </div>
+                @endif
+
+                <div class="flex flex-col justify-center p-8 sm:p-10 {{ $ownerPhotos->isNotEmpty() ? 'sm:col-span-2' : 'sm:col-span-3' }}">
                     @if ($ownerPhotos->isNotEmpty())
-                        <div class="relative w-full aspect-[5/4] rounded-xl overflow-hidden bg-slate-800 mb-4"
-                            x-data="{ active: 0 }"
-                            x-init="setInterval(() => active = (active + 1) % {{ $ownerPhotos->count() }}, 5000)">
-                            @foreach ($ownerPhotos as $index => $photo)
-                                <img src="{{ \Illuminate\Support\Facades\Storage::url($photo) }}" alt="Agus Susanto"
-                                    x-show="active === {{ $index }}"
-                                    x-transition:enter="transition ease-out duration-700"
-                                    x-transition:enter-start="opacity-0"
-                                    x-transition:enter-end="opacity-100"
-                                    x-transition:leave="transition ease-in duration-700"
-                                    x-transition:leave-start="opacity-100"
-                                    x-transition:leave-end="opacity-0"
-                                    class="absolute inset-0 h-full w-full object-cover object-top">
-                            @endforeach
-                        </div>
                         <div class="font-display font-semibold text-white">Agus Susanto</div>
-                        <div class="text-xs text-brand-400 uppercase tracking-wide font-semibold mb-5">Pendiri, CV AMT Jaya Ban</div>
+                        <div class="text-xs text-brand-400 uppercase tracking-wide font-semibold mb-6">Pendiri, PT Susanto Group</div>
                     @else
                         <span class="flex h-10 w-10 items-center justify-center rounded-full bg-brand-500/15 text-brand-400 mb-5">
                             <x-icon name="check" class="h-5 w-5" />
                         </span>
                     @endif
                     <h3 class="font-display text-lg font-semibold mb-3">Komitmen Perusahaan</h3>
-                    <p class="text-sm text-slate-400 leading-relaxed">
-                        CV AMT Jaya Ban berkomitmen untuk terus mengembangkan kualitas produk, kapasitas produksi,
-                        jaringan distribusi, serta pelayanan purna jual. Dengan pengalaman sejak 2007 dan jaringan
-                        yang terus berkembang, perusahaan berupaya menjadi mitra yang dapat diandalkan bagi pelanggan
-                        dalam memenuhi kebutuhan ban truck dan solusi vulkanisir di Indonesia.
+                    <p class="text-sm text-slate-400 leading-relaxed max-w-2xl">
+                        Sebagai perusahaan induk, AMT Group berkomitmen mengembangkan setiap unit usaha yang
+                        dinaunginya melalui tata kelola yang rapi, peningkatan kualitas produk dan layanan, serta
+                        perluasan jaringan distribusi. Fokus kami adalah menjadi mitra yang dapat diandalkan bagi
+                        pelanggan di seluruh Indonesia.
                     </p>
                 </div>
             </div>
