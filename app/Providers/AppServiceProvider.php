@@ -7,6 +7,7 @@ use App\Models\Setting;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
+use Throwable;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -23,14 +24,45 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        if ($this->app->runningInConsole() || ! Schema::hasTable('settings')) {
+        if ($this->app->runningInConsole()) {
             return;
         }
 
-        $groupSettings = Setting::allAsArray();
+        $this->shareGroupSettings();
+    }
+
+    /**
+     * Share the database-backed group branding (name, logo, contact details, social
+     * links) and the footer's company list with every view, then apply the stored
+     * SMTP credentials.
+     *
+     * This runs on every HTTP request, before routing, so a database that is
+     * unreachable or not yet migrated must not be allowed to throw past here: doing so
+     * turns *every* URL into a 500 — including /up and the 404 page, which are exactly
+     * what you need working to tell an app-level bug apart from a database outage.
+     * Views read each of these values through a `?? config(...)` / `!empty()` fallback,
+     * so skipping the share degrades to the config defaults instead of breaking them.
+     */
+    private function shareGroupSettings(): void
+    {
+        try {
+            if (! Schema::hasTable('settings')) {
+                return;
+            }
+
+            $groupSettings = Setting::allAsArray();
+            $activeCompanies = Company::where('is_active', true)
+                ->orderBy('sort_order')
+                ->limit(4)
+                ->get();
+        } catch (Throwable $e) {
+            report($e);
+
+            return;
+        }
 
         View::share('groupSettings', $groupSettings);
-        View::share('activeCompanies', Company::where('is_active', true)->orderBy('sort_order')->limit(4)->get());
+        View::share('activeCompanies', $activeCompanies);
 
         $this->applyMailSettings($groupSettings);
     }
