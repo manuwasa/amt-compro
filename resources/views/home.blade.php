@@ -64,13 +64,10 @@
                     </x-section-heading>
 
                     <dl class="mt-10 space-y-6" data-reveal style="transition-delay:60ms">
-                        @foreach ([
-                            ['icon' => 'check', 'title' => 'Perusahaan Induk', 'desc' => 'PT Susanto Group menaungi unit-unit usaha di bawah bendera AMT Group.'],
-                            ['icon' => 'check', 'title' => 'Akar di Industri Ban', 'desc' => 'Distribusi ban truck dan layanan vulkanisir ban metode dingin.'],
-                            ['icon' => 'map-pin', 'title' => 'Jaringan Nasional', 'desc' => 'Melayani pelanggan di berbagai wilayah Indonesia.'],
-                        ] as $fact)
+                        @foreach ([['icon' => 'check', 'title' => 'Perusahaan Induk', 'desc' => 'PT Susanto Prima Group menaungi unit-unit usaha di bawah bendera AMT Group.'], ['icon' => 'check', 'title' => 'Akar di Industri Ban', 'desc' => 'Distribusi ban truck dan layanan vulkanisir ban metode dingin.'], ['icon' => 'map-pin', 'title' => 'Jaringan Nasional', 'desc' => 'Melayani pelanggan di berbagai wilayah Indonesia.']] as $fact)
                             <div class="flex items-start gap-4">
-                                <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand-50 text-brand-600">
+                                <span
+                                    class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand-50 text-brand-600">
                                     <x-icon name="{{ $fact['icon'] }}" class="h-5 w-5" />
                                 </span>
                                 <div>
@@ -99,21 +96,23 @@
 
             @php
                 // Holding-level legality. Each subsidiary's own profile lives on its
-                // Our Services page (see the Company records), not here.
-                $companyProfile = [
-                    'Identitas' => 'PT Susanto Group',
-                    'Tahun Berdiri' => '2025',
-                    'Pendiri' => 'Agus Susanto',
-                    'Bentuk Usaha' => 'PT (holding)',
-                    'Media Sosial' => 'AMT Group Official',
-                ];
+// Our Services page (see the Company records), not here.
+$companyProfile = [
+    'Identitas' => 'PT Susanto Prima Group',
+    'Tahun Berdiri' => '2025',
+    'Pendiri' => 'Agus Susanto',
+    'Bentuk Usaha' => 'PT (holding)',
+    'Media Sosial' => 'AMT Group Official',
+];
 
-                $ownerPhotos = collect([
-                    'owners/agus-susanto-1.png',
-                    'owners/agus-susanto-2.png',
-                    'owners/agus-susanto-3.png',
-                    'owners/agus-susanto-4.png',
-                ])->filter(fn ($path) => \Illuminate\Support\Facades\Storage::disk('public')->exists($path))->values();
+$ownerPhotos = collect([
+    'owners/agus-susanto-1.png',
+    'owners/agus-susanto-2.png',
+    'owners/agus-susanto-3.png',
+    'owners/agus-susanto-4.png',
+])
+    ->filter(fn($path) => \Illuminate\Support\Facades\Storage::disk('public')->exists($path))
+                    ->values();
             @endphp
 
             {{-- A handful of short facts reads better as a row of tiles than as a
@@ -121,7 +120,8 @@
             <dl class="grid gap-4 sm:grid-cols-2 lg:grid-cols-5" data-reveal>
                 @foreach ($companyProfile as $label => $value)
                     <div class="rounded-2xl border border-slate-200 bg-white px-5 py-5">
-                        <dt class="text-xs font-semibold uppercase tracking-wider text-slate-400">{{ $label }}</dt>
+                        <dt class="text-xs font-semibold uppercase tracking-wider text-slate-400">{{ $label }}
+                        </dt>
                         <dd class="font-display font-semibold text-slate-900 mt-2">{{ $value }}</dd>
                     </div>
                 @endforeach
@@ -131,28 +131,28 @@
                 style="transition-delay:100ms">
                 @if ($ownerPhotos->isNotEmpty())
                     <div class="relative aspect-[4/5] bg-slate-800 sm:aspect-auto sm:min-h-[20rem]"
-                        x-data="{ active: 0 }"
-                        x-init="setInterval(() => active = (active + 1) % {{ $ownerPhotos->count() }}, 5000)">
+                        x-data="{ active: 0 }" x-init="setInterval(() => active = (active + 1) % {{ $ownerPhotos->count() }}, 5000)">
                         @foreach ($ownerPhotos as $index => $photo)
                             <img src="{{ \Illuminate\Support\Facades\Storage::url($photo) }}" alt="Agus Susanto"
                                 x-show="active === {{ $index }}"
                                 x-transition:enter="transition ease-out duration-700"
-                                x-transition:enter-start="opacity-0"
-                                x-transition:enter-end="opacity-100"
+                                x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
                                 x-transition:leave="transition ease-in duration-700"
-                                x-transition:leave-start="opacity-100"
-                                x-transition:leave-end="opacity-0"
+                                x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
                                 class="absolute inset-0 h-full w-full object-cover object-top">
                         @endforeach
                     </div>
                 @endif
 
-                <div class="flex flex-col justify-center p-8 sm:p-10 {{ $ownerPhotos->isNotEmpty() ? 'sm:col-span-2' : 'sm:col-span-3' }}">
+                <div
+                    class="flex flex-col justify-center p-8 sm:p-10 {{ $ownerPhotos->isNotEmpty() ? 'sm:col-span-2' : 'sm:col-span-3' }}">
                     @if ($ownerPhotos->isNotEmpty())
                         <div class="font-display font-semibold text-white">Agus Susanto</div>
-                        <div class="text-xs text-brand-400 uppercase tracking-wide font-semibold mb-6">Pendiri, PT Susanto Group</div>
+                        <div class="text-xs text-brand-400 uppercase tracking-wide font-semibold mb-6">Pendiri, PT
+                            Susanto Prima Group</div>
                     @else
-                        <span class="flex h-10 w-10 items-center justify-center rounded-full bg-brand-500/15 text-brand-400 mb-5">
+                        <span
+                            class="flex h-10 w-10 items-center justify-center rounded-full bg-brand-500/15 text-brand-400 mb-5">
                             <x-icon name="check" class="h-5 w-5" />
                         </span>
                     @endif
