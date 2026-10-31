@@ -17,6 +17,7 @@ class SettingSeeder extends Seeder
             'group_tagline' => 'Holding company for AMT Group\'s subsidiary businesses.',
             'group_logo' => null,
             'group_favicon' => null,
+            'group_hero_image' => null,
             'group_bio' => $this->groupBio(),
             'group_portfolio_intro' => 'Companies under the AMT Group umbrella.',
             'group_email' => 'marketing.amtgroup@gmail.com',

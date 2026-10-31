@@ -44,6 +44,17 @@
         <fieldset class="border-t border-slate-100 pt-6">
             <legend class="text-sm font-semibold text-slate-900 mb-4">Homepage Content</legend>
 
+            <div class="mb-6">
+                <label for="group_hero_image" class="block text-sm font-medium text-slate-700 mb-1.5">
+                    Hero Background Image <span class="font-normal text-slate-400">(landscape photo, max 4 MB)</span>
+                </label>
+                @if (! empty($settings['group_hero_image']))
+                    <img src="{{ \Illuminate\Support\Facades\Storage::url($settings['group_hero_image']) }}" alt="Current hero background" class="h-24 w-auto mb-2 rounded-lg object-cover">
+                @endif
+                <input type="file" name="group_hero_image" id="group_hero_image" accept="image/png,image/jpeg,image/webp" class="w-full text-sm">
+                @error('group_hero_image') <p class="text-sm text-red-600 mt-1">{{ $message }}</p> @enderror
+            </div>
+
             <x-quill-editor name="group_bio" label="Group Biography" :value="old('group_bio', $settings['group_bio'] ?? '')" />
 
             <div class="mt-6">

@@ -253,7 +253,7 @@ Route::prefix('admin')->middleware(['auth'])
 | key | varchar(255) PK | not auto-increment |
 | value | longtext | nullable |
 
-**Stored setting keys:** `group_name`, `group_tagline`, `group_logo`, `group_favicon`, `group_bio`, `group_portfolio_intro`, `group_email`, `group_phone`, `group_whatsapp_number`, `social_tiktok_url`, `social_instagram_url`, `meta_description`, `meta_keywords`, `mail_mailer`, `mail_host`, `mail_port`, `mail_username`, `mail_password`, `mail_encryption`, `mail_from_address`, `mail_from_name`
+**Stored setting keys:** `group_name`, `group_tagline`, `group_logo`, `group_favicon`, `group_hero_image`, `group_bio`, `group_portfolio_intro`, `group_email`, `group_phone`, `group_whatsapp_number`, `social_tiktok_url`, `social_instagram_url`, `meta_description`, `meta_keywords`, `mail_mailer`, `mail_host`, `mail_port`, `mail_username`, `mail_password`, `mail_encryption`, `mail_from_address`, `mail_from_name`
 
 ### `contact_messages`
 | Column | Type | Notes |

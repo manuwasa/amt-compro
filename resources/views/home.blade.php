@@ -18,6 +18,13 @@
 
     {{-- Hero --}}
     <section class="relative overflow-hidden bg-slate-900">
+        @if (!empty($groupSettings['group_hero_image']))
+            <img src="{{ \Illuminate\Support\Facades\Storage::url($groupSettings['group_hero_image']) }}" alt=""
+                fetchpriority="high" class="absolute inset-0 h-full w-full object-cover">
+            {{-- Keeps the white heading and tagline readable over a busy photo. --}}
+            <div class="absolute inset-0 bg-slate-900/75"></div>
+        @endif
+
         <div class="absolute inset-0"
             style="background-image: radial-gradient(circle at 15% 20%, rgba(245,158,11,0.18), transparent 45%), radial-gradient(circle at 85% 0%, rgba(245,158,11,0.10), transparent 40%);">
         </div>

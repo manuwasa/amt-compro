@@ -13,7 +13,7 @@ use Mews\Purifier\Facades\Purifier;
 class SettingController extends Controller
 {
     /**
-     * Text-only setting keys (everything except the two file uploads below).
+     * Text-only setting keys (everything except the file uploads below).
      */
     private const TEXT_KEYS = [
         'group_name',
@@ -49,6 +49,7 @@ class SettingController extends Controller
             'group_tagline' => ['nullable', 'string', 'max:255'],
             'group_logo' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
             'group_favicon' => ['nullable', 'image', 'mimes:png,ico,jpg,jpeg', 'max:512'],
+            'group_hero_image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:4096'],
             'group_bio' => ['nullable', 'string'],
             'group_portfolio_intro' => ['nullable', 'string', 'max:1000'],
             'group_email' => ['nullable', 'email', 'max:255'],
@@ -92,6 +93,10 @@ class SettingController extends Controller
 
         if ($request->hasFile('group_favicon')) {
             $this->replaceFile($request, 'group_favicon');
+        }
+
+        if ($request->hasFile('group_hero_image')) {
+            $this->replaceFile($request, 'group_hero_image');
         }
 
         return redirect()->route('admin.settings.edit')->with('status', 'Settings updated.');

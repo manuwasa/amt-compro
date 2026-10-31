@@ -209,6 +209,7 @@ Navigate to **Group Settings** in the sidebar. *(Superadmin only.)* This control
 
 | Field | Description |
 |-------|-------------|
+| Hero Background Image | Photo shown behind the group name at the top of the homepage, darkened so the text stays readable. Use a wide landscape photo (JPEG, PNG, or WebP, max 4 MB). Leave empty for a plain dark background. |
 | Group Biography | The main "About AMT Group" content on the homepage, using the rich text editor. |
 | Portfolio Section Intro | Short text shown above the grid of subsidiary companies on the homepage. |
 
